@@ -101,6 +101,26 @@ def mix_voices(voices):
     if mx>0: mix = mix/mx
     return mix
 
+def generate_percussion(img_channel, total_duration=10, sr=44100, bpm=120):
+    # 16 steps per bar
+    step_time = 60 / bpm / 4  # quarter note divided into 4 steps
+    num_steps = int(total_duration / step_time)
+    pattern = []
+
+    for i in range(num_steps):
+        # Basic drum pattern probabilities
+        kick = drum_kick(step_time, sr) if i % 4 == 0 else None  # kick on 1 & 3
+        snare = drum_snare(step_time, sr) if i % 4 == 2 else None # snare on 2 & 4
+        hihat = drum_hihat(step_time, sr) if i % 1 == 0 else None # hi-hat every step
+
+        step_audio = np.zeros(int(step_time*sr))
+        for drum in [kick, snare, hihat]:
+            if drum is not None:
+                step_audio += drum
+        pattern.append(step_audio)
+
+    return np.concatenate(pattern).astype(np.float32)
+
 # --- Main generator ---
 def generate_image_music(image_path, output_wav, scale_name="C_major",
                          total_duration=10, sr=44100, save_visualizer=False,
