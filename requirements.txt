@@ -1,0 +1,6 @@
+streamlit
+numpy
+pillow
+scipy
+matplotlib
+sounddevice  # optional if you use playback locally
