@@ -1,7 +1,7 @@
 import streamlit as st
 import tempfile
 import os
-from image_music_fft import generate_image_music, analyze_image, choose_scale
+from musicgen2 import generate_image_music, analyze_image, choose_scale
 
 st.set_page_config(page_title="🎨→🎶 Image-to-Music Generator", layout="centered")
 st.title("🎨 Image-to-Music Generator 🎶")
