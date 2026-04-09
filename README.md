@@ -444,21 +444,6 @@ Image-to-Music-/
 ├── visualizer.py          # Static spectrogram generation
 ├── requirements.txt       # Python dependencies
 ├── README.md              # This file
-├── images/                # [Space for documentation images]
-│   ├── image_analysis_diagram.png
-│   ├── preprocessing_pipeline.png
-│   ├── octave_selection.png
-│   ├── fft_synthesis.png
-│   ├── melody_generation.png
-│   ├── bass_generation.png
-│   ├── pad_generation.png
-│   ├── percussion_synthesis.png
-│   ├── mixing_mastering.png
-│   ├── example_red_image.png
-│   ├── example_blue_image.png
-│   ├── example_high_contrast.png
-│   └── example_low_contrast.png
-└── output_files/          # [Generated audio/WAV storage]
 ```
 
 ---
