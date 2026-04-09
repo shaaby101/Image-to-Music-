@@ -441,7 +441,7 @@ python musicgen2.py my_photo.jpg my_music.wav 15
 Image-to-Music-/
 ├── musicgen2.py           # Core synthesis engine (FFT-based)
 ├── st_app.py              # Streamlit web interface
-├── visualizer.py          # Video generation (waveforms + spectrogram)
+├── visualizer.py          # Static spectrogram generation
 ├── requirements.txt       # Python dependencies
 ├── README.md              # This file
 ├── images/                # [Space for documentation images]
@@ -458,7 +458,7 @@ Image-to-Music-/
 │   ├── example_blue_image.png
 │   ├── example_high_contrast.png
 │   └── example_low_contrast.png
-└── output_files/          # [Generated audio/video storage]
+└── output_files/          # [Generated audio/WAV storage]
 ```
 
 ---
@@ -524,67 +524,47 @@ Image-to-Music-/
 
 ---
 
-## 🎬 Visualization & Output
+## 📊 Visualization & Output
 
-The project includes an advanced **animated video visualizer** that displays all four polyphonic voices with real-time spectrogram analysis.
+The project includes a **static spectrogram visualizer** that displays the frequency content analysis of the generated audio.
 
-### **What's Visualized**
+### **What's Displayed**
 
-```
-📺 Display Layout (1920×1440 MP4):
-┌─────────────────────────────────────────┐
-│ 📸 Source  │  🎼 Melody (Green)         │
-│ Image      │  @ pick_freq_from_column() │
-├─────────────────────────────────────────┤
-│ 🎼 Bass    │  🎼 Pad (Purple)           │
-│ (Red)      │  (Atmospheric layer)       │
-├─────────────────────────────────────────┤
-│ 🥁 Percussion (Blue) — Kick/Snare/HiHat │
-├─────────────────────────────────────────┤
-│ 📊 Spectrogram of Mixed Signal (FFT)    │
-└─────────────────────────────────────────┘
-```
+A spectrogram shows:
+- **X-axis**: Time (seconds)
+- **Y-axis**: Frequency (Hz, up to Nyquist frequency ~22 kHz)
+- **Color intensity**: Power/magnitude in dB (darker = quieter, brighter = louder)
 
-### **Features**
+The spectrogram uses:
+- 1024-point FFT window (detailed frequency resolution)
+- 512-point overlap between windows (smooth time transitions)
+- "Magma" colormap (perceptually uniform, publication-ready)
+- Dynamic range: -80 to 0 dB
 
-- ✅ **Animated Waveforms**: All 4 voices display in real-time with 2-second sliding window
-- ✅ **Color-Coded Voices**: 
-  - 🟢 Green = Melody (green channel)
-  - 🔴 Red = Bass (red channel)
-  - 🟣 Purple = Pad (atmospheric)
-  - 🔵 Blue = Percussion (drums)
-- ✅ **Live Spectrogram**: FFT analysis (magma colormap) shows frequency content over time
-- ✅ **High Quality**: 1920×1440 resolution, 30 FPS, H.264 codec
-
-### **Generate Visualizations**
+### **Generate Spectrograms**
 
 #### **Via Streamlit (Easiest)**
 
-In the Streamlit app after generating music, expand **"📹 Animated Visualization"** to see all four voices and the spectrogram animation play in real-time.
+In the Streamlit app after generating music, expand **"📊 Frequency Analysis (Spectrogram)"** to view the frequency analysis of the mixed signal instantly.
 
 #### **Via Python**
 
 ```python
 from musicgen2 import generate_image_music
-from visualizer import save_multi_voice_visualizer
+from visualizer import generate_spectrogram
 
 # Generate music
 mix, voices, sr = generate_image_music('image.jpg', 'output.wav', 10)
 
-# Create visualization video
-save_multi_voice_visualizer(voices, sr, 'image.jpg', 'visualization.mp4')
+# Create spectrogram
+spectrogram_path = generate_spectrogram(mix, sr, 'spectrogram.png')
 
-# Output: visualization.mp4 (shows all 4 voices + spectrogram)
+# Output: spectrogram.png (shows frequency content over time)
 ```
 
-### **Video Render Times**
+### **Render Time**
 
-| Duration | Estimated Time |
-|---|---|
-| 10 seconds | 5–15 seconds |
-| 30 seconds | 15–45 seconds |
-
-Render time depends on CPU. Requires FFmpeg for MP4 encoding.
+Spectrogram generation is **instant** (< 1 second) compared to video rendering. Perfect for quick iteration and exploration.
 
 ---
 
