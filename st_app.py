@@ -19,7 +19,7 @@ st.sidebar.info(
 uploaded_file = st.file_uploader("Upload an image", type=["png", "jpg", "jpeg"])
 
 if uploaded_file is not None:
-    st.image(uploaded_file, caption="Your Uploaded Image", use_container_width=True)
+    st.image(uploaded_file, caption="Your Uploaded Image", width='stretch')
 
     if st.button("🎶 Generate Music!"):
         with st.spinner("Analysing image and composing..."):
@@ -82,7 +82,7 @@ if uploaded_file is not None:
                 
                 # Display spectrogram
                 if os.path.exists(spectrogram_path):
-                    st.image(spectrogram_path, use_container_width=True)
+                    st.image(spectrogram_path, width='stretch')
                     st.caption("📊 Mixed Signal Spectrogram (FFT: 1024-point window, 512-point overlap)")
                     
                     # Clean up

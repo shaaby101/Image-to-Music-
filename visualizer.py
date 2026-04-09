@@ -69,13 +69,11 @@ def generate_spectrogram(audio_signal, sample_rate, output_path, figsize=(12, 6)
         NFFT=1024,
         noverlap=512,
         cmap="magma",
-        norm=PowerNorm(gamma=0.3),  # Power normalization for better contrast
-        vmin=-80,
-        vmax=0
+        norm=PowerNorm(gamma=0.3, vmin=-80, vmax=0),  # Keep all range control inside norm
     )
 
     # Formatting
-    ax.set_title("📊 Image-to-Music: Mixed Signal Spectrogram (FFT Analysis)", 
+    ax.set_title("Image-to-Music: Mixed Signal Spectrogram (FFT Analysis)", 
                  fontsize=14, fontweight='bold', pad=15)
     ax.set_xlabel("Time (seconds)", fontsize=12)
     ax.set_ylabel("Frequency (Hz)", fontsize=12)
